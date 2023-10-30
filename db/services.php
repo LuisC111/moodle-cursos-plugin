@@ -18,4 +18,12 @@ $functions = array(
         'type'        => 'read',
         'ajax'        => true,
     ),
+    'local_cursos_get_categories' => array(
+        'classname'   => 'local_cursos_categories',
+        'methodname'  => 'get_categories',
+        'classpath'   => 'local/cursos/classes/externalCat.php',
+        'description' => 'Obtiene una de las categorías dee cursos',
+        'type'        => 'read',
+        'ajax'        => true,
+    ),
 );

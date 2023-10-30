@@ -12,3 +12,4 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Cursos';
 $string['courselist'] = 'Lista de cursos';
+$string['courselistviewed'] = 'Lista de cursos vistos';

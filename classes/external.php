@@ -34,10 +34,15 @@ class local_cursos_external extends external_api {
     public static function get_courses($page, $per_page) {
         global $DB;
 
-        // Validación: Verifica si page o per_page no son números enteros o son negativos.
-        if (!is_int($page) || !is_int($per_page) || $page < 0 || $per_page < 0) {
-            throw new invalid_parameter_exception('Detectado valor de parámetro no válido.');
-        }   
+        // Limpia y valida los parámetros usando funciones de Moodle.
+        $page = clean_param($page, PARAM_INT);
+        $per_page = clean_param($per_page, PARAM_INT);
+
+        // Validación: Verifica si page o per_page son números negativos.
+        if ($page < 0 || $per_page < 0) {
+            throw new invalid_parameter_exception(get_string('invalidparam', 'local_cursos'));
+        }  
+
         // Validar contexto.
         $context = context_system::instance();
         self::validate_context($context);
@@ -69,13 +74,13 @@ class local_cursos_external extends external_api {
             
             // Obtener el nombre de la categoría basado en el ID.
             $category = $DB->get_record('course_categories', array('id' => $course->category), 'name');
-            $categoryName = $category ? $category->name : strval($course->category); // Si no hay nombre, usa el ID.
+            $categoryName = $category ? format_string($category->name) : strval($course->category); // Si no hay nombre, usa el ID.
 
             $data[] = array(
                 'id' => (int) $course->id,
-                'fullname' => (string) $course->fullname,
-                'shortname' => (string) $course->shortname,
-                'summary' => strip_tags((string) $course->summary), // Elimina tags HTML del resumen.
+                'fullname' => format_string($course->fullname),
+                'shortname' => format_string($course->shortname),
+                'summary' => strip_tags((string) $course->summary), // Formatea y elimina tags HTML del resumen.
                 'startdate' => (string) date('Y-m-d', $course->startdate),
                 'enddate' => (string) date('Y-m-d', $course->enddate),
                 'category' => $categoryName
@@ -91,6 +96,11 @@ class local_cursos_external extends external_api {
             'data' => $data
         );
     
+        // Trigger the event for viewing the course list.
+        $event = \local_cursos\event\course_list_viewed::create();
+        $event->trigger();
+
+        // Return the result.
         return $result;
     }
 

@@ -4,12 +4,12 @@ namespace local_cursos\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Event triggered when the course list is viewed.
+ * Evento que se activa cuando se visualiza la lista de cursos.
  */
 class course_list_viewed extends \core\event\base {
 
     /**
-     * Initialize the event properties.
+     * Inicializa las propiedades del evento.
      */
     protected function init() {
         $this->data['crud'] = 'r'; // c(reate), r(ead), u(pdate), d(elete)
@@ -18,7 +18,7 @@ class course_list_viewed extends \core\event\base {
     }
 
     /**
-     * Return the name of the event.
+     * Devuelve el nombre del evento.
      *
      * @return string
      */
@@ -27,7 +27,7 @@ class course_list_viewed extends \core\event\base {
     }
 
     /**
-     * Return the description of the event.
+     * Devuelve la descripción del evento.
      *
      * @return string
      */
@@ -36,7 +36,7 @@ class course_list_viewed extends \core\event\base {
     }
 
     /**
-     * Return the URL related to this event.
+     * Devuelve la URL relacionada con este evento.
      *
      * @return \moodle_url
      */

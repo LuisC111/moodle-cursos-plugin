@@ -96,11 +96,11 @@ class local_cursos_external extends external_api {
             'data' => $data
         );
     
-        // Trigger the event for viewing the course list.
+        // Activa el evento para ver la lista de cursos.
         $event = \local_cursos\event\course_list_viewed::create();
         $event->trigger();
 
-        // Return the result.
+        // Devuelve el resultado.
         return $result;
     }
 
